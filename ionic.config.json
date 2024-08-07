@@ -1,0 +1,7 @@
+{
+  "name": "BudoMobile",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
