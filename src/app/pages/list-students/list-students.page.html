@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Card List</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-item *ngFor="let item of items">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>{{ item.title }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ul>
+            <li *ngFor="let contentItem of item.content">{{ contentItem }}</li>
+          </ul>
+        </ion-card-content>
+      </ion-card>
+    </ion-item>
+  </ion-list>
+</ion-content>

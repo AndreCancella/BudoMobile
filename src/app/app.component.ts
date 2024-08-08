@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { IonApp, IonSplitPane, IonMenu, IonContent, IonList, IonListHeader, IonNote, IonMenuToggle, IonItem, IonIcon, IonLabel, IonRouterOutlet, IonRouterLink } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, heartOutline, heartSharp, archiveOutline, archiveSharp, trashOutline, trashSharp, warningOutline, warningSharp, bookmarkOutline, bookmarkSharp } from 'ionicons/icons';
+import { mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, heartOutline, heartSharp, archiveOutline, archiveSharp, trashOutline, trashSharp, warningOutline, warningSharp, bookmarkOutline, bookmarkSharp, peopleSharp, homeSharp, createSharp, listCircleSharp } from 'ionicons/icons';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -14,15 +15,23 @@ import { mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, heartOutlin
 })
 export class AppComponent {
   public appPages = [
-    { title: 'Inbox', url: '/folder/inbox', icon: 'mail' },
-    { title: 'Outbox', url: '/folder/outbox', icon: 'paper-plane' },
-    { title: 'Favorites', url: '/folder/favorites', icon: 'heart' },
-    { title: 'Archived', url: '/folder/archived', icon: 'archive' },
-    { title: 'Trash', url: '/folder/trash', icon: 'trash' },
-    { title: 'Spam', url: '/folder/spam', icon: 'warning' },
+    { title: 'Dojo', url: '/folder/dojo', icon: 'home' },
+    { title: 'Alunos', url: '/folder/students', icon: 'people' },
+    { title: 'Faixa', url: '/folder/belts', icon: 'create' },
+    { title: 'Lista de Alunos', url: '/pages/list-students', icon: 'list-circle' },
+    { title: 'Lista de Faixas', url: '/folder/belts', icon: 'list-circle' },
   ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-  constructor() {
-    addIcons({ mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, heartOutline, heartSharp, archiveOutline, archiveSharp, trashOutline, trashSharp, warningOutline, warningSharp, bookmarkOutline, bookmarkSharp });
+
+  public isMenuVisible: boolean = true; // Adicione esta linha
+
+  constructor(private router: Router) {
+    addIcons({ mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, heartOutline, heartSharp, archiveOutline, archiveSharp, trashOutline, trashSharp, warningOutline, warningSharp, bookmarkOutline, bookmarkSharp, peopleSharp, homeSharp, createSharp, listCircleSharp });
+        // Monitorar mudanças de rota para mostrar/ocultar o menu
+        this.router.events.pipe(
+          filter(event => event instanceof NavigationEnd)
+        ).subscribe(() => {
+          const currentUrl = this.router.url;
+          this.isMenuVisible = !currentUrl.startsWith('/login');
+        });
   }
 }
